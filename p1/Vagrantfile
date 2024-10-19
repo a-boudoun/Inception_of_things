@@ -17,8 +17,8 @@ Vagrant.configure("2") do |config|
     fechS.vm.box_version = "20241002.0.0"
 
     # check the box integrity
-    fechS.vm.box_download_checksum = "9f581b096019c3e3d7daa1da82b78065676d5b5b"
-    fechS.vm.box_download_checksum_type = "sha1"
+    fechS.vm.box_download_checksum = "f322c39945bd01166d923a6b261b52d289095cd73afbdabda2e73c9a9237d660"
+    fechS.vm.box_download_checksum_type = "sha256"
     fechS.vm.hostname = "fech-chaS"
     fechS.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaS_vb"
@@ -26,6 +26,9 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
       vb.gui = false
     end
+
+    # keep SSH connection alive
+    fechS.ssh.keep_alive = true
 
     # ignore Vagrantfiles (if any) found inside a box   
     fechS.vm.ignore_box_vagrantfile = true
@@ -41,8 +44,8 @@ Vagrant.configure("2") do |config|
     fechSW.vm.box_version = "20241002.0.0"
 
     # check the box integrity
-    fechS.vm.box_download_checksum = "9f581b096019c3e3d7daa1da82b78065676d5b5b"
-    fechS.vm.box_download_checksum_type = "sha1"
+    fechS.vm.box_download_checksum = "f322c39945bd01166d923a6b261b52d289095cd73afbdabda2e73c9a9237d660"
+    fechS.vm.box_download_checksum_type = "sha256"
     fechSW.vm.hostname = "fech-chaSW"
     fechSW.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaSW_vb"
@@ -50,6 +53,8 @@ Vagrant.configure("2") do |config|
       vb.cpus = 1
       vb.gui = false
     end
+
+    fechSW.ssh.keep_alive = true
 
     fechSW.vm.ignore_box_vagrantfile = true
     fechSW.vm.box_check_update = false
