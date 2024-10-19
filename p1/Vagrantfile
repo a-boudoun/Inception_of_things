@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
+
+
+  # First Machine: fech-chaS
   config.vm.define "fech-chaS" do |fechS|
     fechS.vm.box = "ubuntu/jammy64"
     fechS.vm.box_version = "20241002.0.0"
@@ -39,6 +42,9 @@ Vagrant.configure("2") do |config|
     fechS.vm.provision "shell", path: "scripts/bootstrap.sh"
   end
   
+
+
+  # Second Machine: fech-chaSW
   config.vm.define "fech-chaSW" do |fechSW|
     fechSW.vm.box = "ubuntu/jammy64"
     fechSW.vm.box_version = "20241002.0.0"
