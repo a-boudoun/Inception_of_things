@@ -15,6 +15,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "fech-chaS" do |fechS|
     fechS.vm.box = "ubuntu/jammy64"
     fechS.vm.box_version = "20241002.0.0"
+
+    # check the box integrity
+    fechS.vm.box_download_checksum = "9f581b096019c3e3d7daa1da82b78065676d5b5b"
+    fechS.vm.box_download_checksum_type = "sha1"
     fechS.vm.hostname = "fech-chaS"
     fechS.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaS_vb"
@@ -33,6 +37,10 @@ Vagrant.configure("2") do |config|
   config.vm.define "fech-chaSW" do |fechSW|
     fechSW.vm.box = "ubuntu/jammy64"
     fechSW.vm.box_version = "20241002.0.0"
+
+    # check the box integrity
+    fechS.vm.box_download_checksum = "9f581b096019c3e3d7daa1da82b78065676d5b5b"
+    fechS.vm.box_download_checksum_type = "sha1"
     fechSW.vm.hostname = "fech-chaSW"
     fechSW.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaSW_vb"
