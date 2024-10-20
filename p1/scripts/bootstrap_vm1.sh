@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 
-echo "Starting the shell provisioner..."
+echo "Starting the shell provisioner for the first machine..."
 
 # set up ufw for k3s
 # sudo ufw disable
@@ -14,8 +14,14 @@ echo "Starting the shell provisioner..."
 
 curl -sfL https://get.k3s.io | sh -
 
+sudo chmod 777 /etc/rancher/k3s/k3s.yaml
+
 sudo chmod 777 /var/lib/rancher/k3s/server/
 
-sudo cat /var/lib/rancher/k3s/server/node-token > /vagrant/confs/node.txt
+sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n' > /vagrant/confs/node.txt
 
-sudo hostname -I | awk '{print $2}' > /vagrant/confs/hostname.txt
+sudo hostname -I | awk '{print $2}' | tr -d '\n' > /vagrant/confs/hostname.txt
+
+# run server
+
+# sudo k3s server
