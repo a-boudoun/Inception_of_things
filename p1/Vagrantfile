@@ -14,7 +14,9 @@ Vagrant.configure("2") do |config|
     fechS.vm.hostname = "fech-chaS"
     fechS.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaS_vb"
-      vb.memory = 1024
+
+      # tmp change
+      vb.memory = 2048
       vb.cpus = 1
       vb.gui = false
     end
@@ -43,7 +45,9 @@ Vagrant.configure("2") do |config|
     fechSW.vm.hostname = "fech-chaSW"
     fechSW.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaSW_vb"
-      vb.memory = 1024
+
+      # temp change
+      vb.memory = 2048
       vb.cpus = 1
       vb.gui = false
     end
