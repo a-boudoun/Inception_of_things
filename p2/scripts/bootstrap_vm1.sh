@@ -23,7 +23,3 @@ sudo chmod 777 /var/lib/rancher/k3s/server/
 sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n' > /vagrant/confs/node.txt
 
 sudo hostname -I | awk '{print $2}' | tr -d '\n' > /vagrant/confs/hostname.txt
-
-# echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> ~/.bashrc
-
-# source ~/.bashrc
