@@ -1,4 +1,4 @@
-# Deploy a POD and inspect it's infos
+# Deploy a POD and inspect it's infos:
 
 ![alt text](<Screen Shot 2024-10-23 at 12.33.04 PM.png>)
 
@@ -21,7 +21,7 @@ kubectl get pod -o=custom-columns=NAME:.metadata.name,STATUS:.status.phase,NODE:
 kubectl get pods -o wide --all-namespaces --sort-by="{.spec.nodeName}" 
 ```
 
-# Deploy a Pod using YAML
+# Deploy a Pod using YAML:
 
 ![alt text](pod_yaml1.png)
 ![alt text](pod_yaml2.png)
@@ -42,7 +42,7 @@ spec:
 
 ```
 
-# Replication Controller:
+# ReplicationController:
 
 ![alt text](rc1.png)
 ![alt text](rc2.png)
@@ -69,3 +69,16 @@ spec:
       - name: nginx-pod
         image: nginx
 ```
+
+# ReplicaSet (Labels and Selectors):
+
+![alt text](rs1.png)
+![alt text](rs2.png)
+
+## Scale:
+
+![alt text](scale.png)
+
+## Relevant commands:
+
+![alt text](cmds.png)
