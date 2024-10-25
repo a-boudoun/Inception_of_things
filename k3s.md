@@ -41,3 +41,31 @@ spec:
       image: nginx
 
 ```
+
+# Replication Controller:
+
+![alt text](rc1.png)
+![alt text](rc2.png)
+![alt text](rc3.png)
+
+```yaml
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: rc-test
+  labels:
+    app: rc-app
+    type: test-rc
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: my-pod-test
+      labels:
+        app: pod-app
+        type: test-pod
+    spec:
+      containers:
+      - name: nginx-pod
+        image: nginx
+```
