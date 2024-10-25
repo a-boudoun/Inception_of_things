@@ -82,3 +82,12 @@ spec:
 ## Relevant commands:
 
 ![alt text](cmds.png)
+
+
+
+## todo:
+
+- config k3s server agent
+- create eth1 for linux machines (agent/server)
+- check why nodes create in server as well
+![alt text](multiple_nodes.png)
