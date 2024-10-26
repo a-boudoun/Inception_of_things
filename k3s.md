@@ -87,7 +87,8 @@ spec:
 
 ## todo:
 
-- config k3s server agent
+- install netools in server agent 
+- config k3s server agent (https://docs.k3s.io/installation/configuration)
 - create eth1 for linux machines (agent/server)
 - check why nodes create in server as well
 ![alt text](multiple_nodes.png)
