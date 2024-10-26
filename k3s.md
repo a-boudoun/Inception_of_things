@@ -88,6 +88,36 @@ spec:
 
 ![alt text](deploy.png)
 
+```yaml
+
+# example of a deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment-app
+  labels:
+    app: deploy-app
+    type: test-deploy
+spec:
+  template:
+    metadata:
+      name: my-pod-app
+      labels:
+        app: pod-app
+        type: test-pod
+    spec:
+      containers:
+      - name: nginx-pod
+        image: nginx
+  replicas: 3
+  selector:
+    matchLabels:
+      type: test-pod
+
+```
+
+
 ![alt text](deploy_after.png)
 
 ## todo:
