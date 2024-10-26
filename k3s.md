@@ -6,6 +6,7 @@
 ```bash
 echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> ~/.bashrc
 source ~/.bashrc
+kubectl get all
 kubectl get pods
 kubectl get pods -all 
 kubectl get pods -A 
@@ -83,7 +84,11 @@ spec:
 
 ![alt text](cmds.png)
 
+# Deployment:
 
+![alt text](deploy.png)
+
+![alt text](deploy_after.png)
 
 ## todo:
 
