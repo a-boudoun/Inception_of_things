@@ -4,19 +4,20 @@ metadata:
   name: my-deployment-app
   labels:
     app: deploy-app
-    type: test-deploy
+    type: deploy-test
 spec:
   template:
     metadata:
       name: my-pod-app
       labels:
         app: pod-app
-        type: test-pod
+        type: pod-test
     spec:
       containers:
-      - name: nginx-pod
-        image: nginx
-  replicas: 3
+        - name: nginx-pod
+          image: nginx
+  replicas: 4
   selector:
     matchLabels:
-      type: test-pod
+      type: pod-test
+      
