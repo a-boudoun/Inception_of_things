@@ -24,6 +24,8 @@ sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n' > /vagrant/confs/no
 
 sudo hostname -I | awk '{print $2}' | tr -d '\n' > /vagrant/confs/hostname.txt
 
+# kubectl create secret docker-registry my-docker-secret --docker-username=fechcha --docker-password=fechcha --docker-email=farouk.echcharef20@gmail.com
+
 # echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> ~/.bashrc
 
 # source ~/.bashrc
