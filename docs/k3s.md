@@ -120,6 +120,13 @@ spec:
 
 ![alt text](deploy_after.png)
 
+## Updates and Rollbacks:
+### Rollout and versioning:
+
+* after creating a new deployment: 
+
+![alt text](rollout.png)
+
 ## todo:
 
 - install netools in server agent 
