@@ -131,6 +131,10 @@ spec:
 
 ![alt text](rollout_update.png)
 
+* full review (it also creates a new replicaset):
+
+![alt text](rollout_behave.png)
+
 ## todo:
 
 - install netools in server agent 
