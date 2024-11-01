@@ -127,6 +127,10 @@ spec:
 
 ![alt text](rollout.png)
 
+* after an update to the deployment:
+
+![alt text](rollout_update.png)
+
 ## todo:
 
 - install netools in server agent 
