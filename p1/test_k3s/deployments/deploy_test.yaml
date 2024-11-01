@@ -17,6 +17,8 @@ spec:
         - name: nginx-pod
           image: nginx:1.7.1
   replicas: 4
+  # number of replicas to be stored
+  revisionHistoryLimit: 15
   selector:
     matchLabels:
       type: pod-test

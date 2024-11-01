@@ -110,6 +110,7 @@ spec:
       containers:
       - name: nginx-pod
         image: nginx
+  revisionHistoryLimit: 15
   replicas: 3
   selector:
     matchLabels:
@@ -134,6 +135,16 @@ spec:
 * full review (it also creates a new replicaset):
 
 ![alt text](rollout_behave.png)
+
+### Updates and Rollbacks:
+
+* great resource: https://learnk8s.io/kubernetes-rollbacks
+
+* rollback to a specific version:
+
+```bash
+$ kubectl rollout undo deployment/my-deployment-app --to-revision=3
+```
 
 ## todo:
 
