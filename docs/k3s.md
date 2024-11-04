@@ -138,6 +138,10 @@ spec:
 
 ![alt text](rollout_behave.png)
 
+* record a rollout:
+
+![alt text](rollout_record.png)
+
 ### Updates and Rollbacks:
 
 * great resource: https://learnk8s.io/kubernetes-rollbacks
