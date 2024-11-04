@@ -121,6 +121,8 @@ spec:
 
 ![alt text](deploy_after.png)
 
+![alt text](replicaset.png)
+
 ## Updates and Rollbacks:
 ### Rollout and versioning:
 
