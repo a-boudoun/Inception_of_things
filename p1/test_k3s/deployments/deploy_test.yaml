@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: nginx-pod
-          image: nginx:1.7.1
+          image: nginx:1.25.2
   replicas: 4
   # number of replicas to be stored
   revisionHistoryLimit: 15
