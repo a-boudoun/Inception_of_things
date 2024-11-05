@@ -156,6 +156,20 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 * Services enable the front-end application to be made available to users, it helps communication between back-end and front-end PODs, and helps in establishing connectivity to an external data source. Thus services enable loose coupling between microservices in our application.
 
+## Nodeport:
+
+![alt text](NodePort.png)
+
+* Link services to pods using `selector` and `label`:
+
+![alt text](selector.png)
+
+![alt text](label.png)
+
+* Services could manage PODs on multiple Nodes:
+
+![alt text](multiple_nodes_service.png)
+
 ## todo:
 
 - install netools in server agent 
