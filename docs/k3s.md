@@ -152,6 +152,10 @@ spec:
 $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 ```
 
+# Services: 
+
+* Services enable the front-end application to be made available to users, it helps communication between back-end and front-end PODs, and helps in establishing connectivity to an external data source. Thus services enable loose coupling between microservices in our application.
+
 ## todo:
 
 - install netools in server agent 
