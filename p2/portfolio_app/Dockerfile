@@ -1,5 +1,3 @@
-# FROM debian:buster
-
 FROM debian:buster
 
 RUN apt-get update -y
