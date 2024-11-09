@@ -3,19 +3,17 @@
 # Start shell provisioning
 echo "Starting the shell provisioner for the first machine..."
 
-# install Kubectl
-# echo "Installing Kubectl..."
-# curl -LO "https://dl.k8s.io/release/v1.31.0/bin/linux/amd64/kubectl"
-# sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
+# install necessary tools
+echo "Installing necesary tools..."
+sudo apt install net-tools
 
 # set up k3S
 echo "Set up K3S..."
 
 # install k3s server
-
 curl -sfL https://get.k3s.io | sh -
 
+# use 644 for read-only access
 sudo chmod 777 /etc/rancher/k3s/k3s.yaml
 
 sudo chmod 777 /var/lib/rancher/k3s/server/
@@ -24,8 +22,3 @@ sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n' > /vagrant/confs/no
 
 sudo hostname -I | awk '{print $2}' | tr -d '\n' > /vagrant/confs/hostname.txt
 
-# kubectl create secret docker-registry my-docker-secret --docker-username=fechcha --docker-password=fechcha --docker-email=farouk.echcharef20@gmail.com
-
-# echo "export KUBECONFIG=/etc/rancher/k3s/k3s.yaml" >> ~/.bashrc
-
-# source ~/.bashrc

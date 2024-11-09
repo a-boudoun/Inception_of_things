@@ -172,6 +172,15 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 ## todo:
 
+- secure k3s token:
+![alt text](secure_token_recommendation.png)
+
+- equivalent of eth1:
+
+![alt text](<eth1 equival.png>)
+
+![alt text](<eth1 lookup.png>)
+
 - install netools in server agent 
 - config k3s server agent (https://docs.k3s.io/installation/configuration)
 - create eth1 for linux machines (agent/server)
