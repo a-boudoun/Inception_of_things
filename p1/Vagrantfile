@@ -29,7 +29,6 @@ Vagrant.configure("2") do |config|
     # allow Vagrant to modify etc/hosts file during provisioning, This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname without needing to manually edit the /etc/hosts file, also allow VMs to communicate with eachother
     fechS.vm.allow_hosts_modification = true
     fechS.vm.network "private_network", ip: "192.168.56.110"
-    # fechS.vm.network "public_network", bridge: "en1: Wi-Fi (AirPort)"
     fechS.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
   end
   
