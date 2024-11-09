@@ -1,12 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# All Vagrant configuration is done below. The "2" in Vagrant.configure
-# configures the configuration version (we support older styles for
-# backwards compatibility). Please don't change it unless you know what
-# you're doing.
 Vagrant.configure("2") do |config|
-  # First Machine: fech-chaS
+
+  # Server Machine: fech-chaS
   config.vm.define "fech-chaS" do |fechS|
     fechS.vm.box = "ubuntu/jammy64"
     fechS.vm.box_version = "20241002.0.0"
@@ -18,7 +15,6 @@ Vagrant.configure("2") do |config|
     fechS.vm.provider :virtualbox do |vb|
       vb.name = "fech-chaS_vb"
 
-      # tmp change
       vb.memory = 2048
       vb.cpus = 1
       vb.gui = false
