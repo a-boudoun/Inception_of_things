@@ -170,6 +170,8 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 ![alt text](multiple_nodes_service.png)
 
+* The `ClusterIP` type makes the service accessible within the cluster (for internal communication). You could change it to `NodePort` or `LoadBalancer` if you need external access.
+
 ## todo:
 
 - secure k3s token:
