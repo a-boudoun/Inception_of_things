@@ -186,5 +186,9 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 - install netools in server agent 
 - config k3s server agent (https://docs.k3s.io/installation/configuration)
 - create eth1 for linux machines (agent/server)
+
+* p2:
+- the type of service should be ClusterIP
+- app3 should be selected by default
 - check why nodes create in server as well
 ![alt text](multiple_nodes.png)
