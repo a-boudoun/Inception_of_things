@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: portfolio1-pod
-          image: fechcha69/fechcha-portfolio
+          image: fechcha69/fechcha-portfolio-app1
   replicas: 1
   revisionHistoryLimit: 0
   selector:
@@ -42,7 +42,7 @@ spec:
     spec:
       containers:
         - name: portfolio2-pod
-          image: fechcha69/fechcha-portfolio
+          image: fechcha69/fechcha-portfolio-app2
   replicas: 3
   revisionHistoryLimit: 0
   selector:
@@ -69,7 +69,7 @@ spec:
     spec:
       containers:
         - name: portfolio3-pod
-          image: fechcha69/fechcha-portfolio
+          image: fechcha69/fechcha-portfolio-app3
   replicas: 1
   revisionHistoryLimit: 0
   selector:
@@ -88,6 +88,6 @@ spec:
   selector:
     app: portfolio
   ports:
-    - port: 80
-      targetPort: 80
+    - port: 5000
+      targetPort: 5000
       nodePort: 30069
