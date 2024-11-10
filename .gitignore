@@ -1,3 +1,4 @@
 .vagrant
 hostname.txt
 node.txt
+.DS_Store
