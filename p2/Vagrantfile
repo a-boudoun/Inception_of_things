@@ -1,34 +1,26 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+MASTER_NAME = "fech-chaS"
+VB_NAME = "fech-chaS_vb"
+VM_PROVIDER = "virtualbox"
+MASTER_IP = "192.168.56.110"
+BOX = "ubuntu/jammy64"
+BOX_VERSION = "20241002.0.0"
+MEMORY =  2048
+CPU = 1
 
 Vagrant.configure("2") do |config|
-
-  # Server Machine: fech-chaS
-  config.vm.define "fech-chaS" do |fechS|
-    fechS.vm.box = "ubuntu/jammy64"
-    fechS.vm.box_version = "20241002.0.0"
-
-    # check the box integrity
-    fechS.vm.box_download_checksum = "f322c39945bd01166d923a6b261b52d289095cd73afbdabda2e73c9a9237d660"
-    fechS.vm.box_download_checksum_type = "sha256"
-    fechS.vm.hostname = "fech-chaS"
-    fechS.vm.provider :virtualbox do |vb|
-      vb.name = "fech-chaS_vb"
-
-      vb.memory = 2048
-      vb.cpus = 1
-      vb.gui = false
+    config.vm.box = BOX
+    config.vm.box_version = BOX_VERSION
+    config.vm.provider VM_PROVIDER do |vb|
+        vb.name = VB_NAME
+        vb.memory = MEMORY
+        vb.cpus = CPU
+        vb.gui = false
     end
-
-    # keep SSH connection alive
-    fechS.ssh.keep_alive = true
-
-    # ignore Vagrantfiles (if any) found inside a box   
-    fechS.vm.ignore_box_vagrantfile = true
-    fechS.vm.box_check_update = false
-    # allow Vagrant to modify etc/hosts file during provisioning, This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname without needing to manually edit the /etc/hosts file, also allow VMs to communicate with eachother
-    fechS.vm.allow_hosts_modification = true
-    fechS.vm.network "private_network", ip: "192.168.56.110"
-    fechS.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
-  end
+    config.vm.define MASTER_NAME do |master|
+        master.vm.hostname = MASTER_NAME
+        master.vm.network "private_network", ip: WORKER_IP
+        master.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
+        # allow Vagrant to modify etc/hosts file during provisioning, This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname without needing to manually edit the /etc/hosts file, also allow VMs to communicate with eachother
+        master.vm.allow_hosts_modification = true
+    end
 end
