@@ -1,63 +1,30 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 Vagrant.configure("2") do |config|
-
-  # First Machine: fech-chaS
-  config.vm.define "fech-chaS" do |fechS|
-    fechS.vm.box = "ubuntu/jammy64"
-    fechS.vm.box_version = "20241002.0.0"
-
-    # check the box integrity
-    fechS.vm.box_download_checksum = "f322c39945bd01166d923a6b261b52d289095cd73afbdabda2e73c9a9237d660"
-    fechS.vm.box_download_checksum_type = "sha256"
-    fechS.vm.hostname = "fech-chaS"
-    fechS.vm.provider :virtualbox do |vb|
-      vb.name = "fech-chaS_vb"
-
-      vb.memory = 2048
-      vb.cpus = 1
-      vb.gui = false
+    #Server Node
+    config.vm.define "amiskiS" do |server_conf|
+        server_conf.vm.box = "hashicorp/bionic64"
+        server_conf.vm.box_version = "1.0.282"
+        server_conf.vm.hostname = "Server"
+        server_conf.vm.network "private_network", ip: "192.168.56.110"
+        server_conf.vm.provider "virtualbox" do |vb|
+            vb.name = "amiskiS"
+            vb.memory = "1024"
+            vb.cpus = 1
+        end
+        server_conf.vm.provision "shell", path: "./scripts/vm1_setup.sh"
     end
-
-    # keep SSH connection alive
-    fechS.ssh.keep_alive = true
-
-    # ignore Vagrantfiles (if any) found inside a box   
-    fechS.vm.ignore_box_vagrantfile = true
-    fechS.vm.box_check_update = false
-    # allow Vagrant to modify etc/hosts file during provisioning, This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname without needing to manually edit the /etc/hosts file, also allow VMs to communicate with eachother
-    fechS.vm.allow_hosts_modification = true
-    fechS.vm.network "private_network", ip: "192.168.56.110"
-    fechS.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
-  end
-  
-
-  # Second Machine: fech-chaSW
-  config.vm.define "fech-chaSW" do |fechSW|
-    fechSW.vm.box = "ubuntu/jammy64"
-    fechSW.vm.box_version = "20241002.0.0"
-
-    # check the box integrity
-    fechSW.vm.box_download_checksum = "f322c39945bd01166d923a6b261b52d289095cd73afbdabda2e73c9a9237d660"
-    fechSW.vm.box_download_checksum_type = "sha256"
-    fechSW.vm.hostname = "fech-chaSW"
-    fechSW.vm.provider :virtualbox do |vb|
-      vb.name = "fech-chaSW_vb"
-
-      vb.memory = 2048
-      vb.cpus = 1
-      vb.gui = false
+    #Worker Node
+    config.vm.define "amiskiWS" do |worker_conf|
+        worker_conf.vm.box = "hashicorp/bionic64"
+        worker_conf.vm.box_version = "1.0.282"
+        worker_conf.vm.hostname = "ServerWorker"
+        worker_conf.vm.network "private_network", ip: "192.168.56.111"
+        worker_conf.vm.provider "virtualbox" do |vb|
+            vb.name = "amiskiWS"
+            vb.memory = "512"
+            vb.cpus = 1
+        end
+        worker_conf.vm.provision "shell", path: "./scripts/vm2_setup.sh"
     end
-
-    fechSW.ssh.keep_alive = true
-
-    fechSW.vm.ignore_box_vagrantfile = true
-    fechSW.vm.box_check_update = false
-
-    fechSW.vm.allow_hosts_modification = true
-    fechSW.vm.network "private_network", ip: "192.168.56.111"
-
-    fechSW.vm.provision "shell", path: "scripts/bootstrap_vm2.sh"
-  end
 end
+
+  
