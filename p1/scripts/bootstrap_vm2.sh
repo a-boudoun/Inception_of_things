@@ -14,7 +14,5 @@ CMD="sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n'"
 
 TOKEN=$(ssh  -o StrictHostKeyChecking=no -i $PRIVATE_KEY vagrant@$SERVER_IP -C $CMD)
 
-echo -e "\033[1;33m$TOKEN\033[0m"
-echo -e "\033[1;33m$SERVER_IP\033[0m"
 
 curl -sfL https://get.k3s.io | K3S_URL=https://$SERVER_IP:6443 K3S_TOKEN=$TOKEN sh -
