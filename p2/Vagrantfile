@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     end
     config.vm.define MASTER_NAME do |master|
         master.vm.hostname = MASTER_NAME
-        master.vm.network "private_network", ip: WORKER_IP
+        master.vm.network "private_network", ip: MASTER_IP
         master.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
         # allow Vagrant to modify etc/hosts file during provisioning, This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname without needing to manually edit the /etc/hosts file, also allow VMs to communicate with eachother
         master.vm.allow_hosts_modification = true
