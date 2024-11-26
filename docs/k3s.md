@@ -174,6 +174,8 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 ## todo:
 
+- set up dashboard
+https://dev.to/lucyllewy/install-and-access-the-k8s-web-ui-dashboard-on-a-k3s-cluster-4370
 - secure k3s token:
 ![alt text](secure_token_recommendation.png)
 
