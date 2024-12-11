@@ -123,6 +123,72 @@ spec:
 
 ![alt text](replicaset.png)
 
+In Kubernetes, the `apiVersion` field specifies the API group and version for the Kubernetes resource being defined. The key difference between `apiVersion: apps/v1` and `apiVersion: v1` lies in the **API group** they belong to and the resources they manage:
+
+### **`apiVersion: v1`**
+- Belongs to the **core (default) API group**, which doesn't have a name.
+- Used for core Kubernetes objects like:
+  - **Pods**
+  - **Services**
+  - **ConfigMaps**
+  - **Secrets**
+  - **PersistentVolumes (PVs)**
+  - **PersistentVolumeClaims (PVCs)**
+  - **Namespaces**
+  - **Nodes**
+- Example:
+  ```yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: my-pod
+  spec:
+    containers:
+    - name: nginx
+      image: nginx:latest
+  ```
+
+---
+
+### **`apiVersion: apps/v1`**
+- Belongs to the **apps API group**, introduced to handle higher-level abstractions related to deploying and managing applications.
+- Used for managing workload resources like:
+  - **Deployments**
+  - **DaemonSets**
+  - **StatefulSets**
+  - **ReplicaSets**
+- Example:
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: my-deployment
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: nginx
+    template:
+      metadata:
+        labels:
+          app: nginx
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:latest
+  ```
+
+---
+
+### Key Differences:
+| Feature                  | `apiVersion: v1`                    | `apiVersion: apps/v1`         |
+|--------------------------|--------------------------------------|--------------------------------|
+| **API Group**            | Core (default) group                | `apps` group                  |
+| **Resources Managed**    | Core objects (e.g., Pods, Services) | Workload resources (e.g., Deployments, StatefulSets) |
+| **Purpose**              | Basic Kubernetes building blocks    | Application deployment and scaling |
+
+When deciding between the two, it depends on the resource you are defining. Always consult the Kubernetes documentation or use `kubectl api-resources` to see the appropriate `apiVersion` for the resource.
+
 ## Updates and Rollbacks:
 ### Rollout and versioning:
 
