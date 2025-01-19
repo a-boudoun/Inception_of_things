@@ -238,9 +238,7 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 * The `ClusterIP` type makes the service accessible within the cluster (for internal communication). You could change it to `NodePort` or `LoadBalancer` if you need external access.
 
-## todo:
-
-### k3d:
+# k3d:
 - resource: 
 https://www.youtube.com/watch?v=mCesuGk-Fks&list=PLvFOdZBrBEqXIiC6wuHMq2Clq7_dGLEiD&index=17&ab_channel=DevOpsToolkit
 
@@ -255,6 +253,17 @@ k3d cluster create my-cluster
 ```
 - after install :
 ![alt text](k3d_setup.png)
+
+- to check if the cluster running as a container, check docker:
+![alt text](k3s_container.png)
+* two containers, one for k3s cluster, one will proxy the request to the cluster container.
+
+- delete a cluster:
+```bash
+k3d cluster delete my-cluster
+```
+
+## todo:
 
 ### IOT:
 - set up dashboard
