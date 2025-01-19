@@ -240,6 +240,17 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 ## todo:
 
+### k3d:
+- resource: 
+https://www.youtube.com/watch?v=mCesuGk-Fks&list=PLvFOdZBrBEqXIiC6wuHMq2Clq7_dGLEiD&index=17&ab_channel=DevOpsToolkit
+
+- install on linux:
+```bash
+wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+```
+
+
+
 - set up dashboard
 https://dev.to/lucyllewy/install-and-access-the-k8s-web-ui-dashboard-on-a-k3s-cluster-4370
 - secure k3s token:
