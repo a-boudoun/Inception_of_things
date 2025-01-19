@@ -249,8 +249,14 @@ https://www.youtube.com/watch?v=mCesuGk-Fks&list=PLvFOdZBrBEqXIiC6wuHMq2Clq7_dGL
 wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 ```
 
+- create cluster:
+```bash
+k3d cluster create my-cluster
+```
+- after install :
+![alt text](k3d_setup.png)
 
-
+### IOT:
 - set up dashboard
 https://dev.to/lucyllewy/install-and-access-the-k8s-web-ui-dashboard-on-a-k3s-cluster-4370
 - secure k3s token:
