@@ -263,7 +263,33 @@ k3d cluster create my-cluster
 k3d cluster delete my-cluster
 ```
 
+- k3d config files to create clusters (k3d.yaml): 
+```yaml
+# required fields
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+name: my-cluster
+image: rancher/k3s:latest
+# control plane/ master nodes:
+servers: 3
+# agent/worker nodes:
+agents: 3
+ports:
+  - port: 80:80 # same as `--port '8080:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+```
+
+- create cluster with config file:
+```bash
+k3d cluster create --config k3d.yaml
+```
+
 ## todo:
+### K3D:
+- k8s context vs namespace
+- switch between k3d and default context
+![alt text](k3d_context.png)
 
 ### IOT:
 - set up dashboard
