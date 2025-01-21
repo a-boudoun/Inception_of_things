@@ -286,6 +286,8 @@ k3d cluster create --config k3d.yaml
 ```
 
 ## todo:
+- resource of the project:
+https://github.com/wen/iot/wiki
 ### K3D:
 - k8s context vs namespace
 - switch between k3d and default context
