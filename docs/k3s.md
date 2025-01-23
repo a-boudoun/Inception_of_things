@@ -286,6 +286,9 @@ k3d cluster create --config k3d.yaml
 ```
 
 ## todo:
+### Gitlab:
+- https://www.youtube.com/watch?v=qP8kir2GUgo
+
 ### K3D:
 - k8s context vs namespace
 - switch between k3d and default context
