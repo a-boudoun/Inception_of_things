@@ -95,7 +95,7 @@ Part 2 builds on your K3s knowledge by deploying three web applications on a sin
 Part 3 focuses on transitioning your Kubernetes setup from K3s to K3d and leveraging ArgoCD for Continuous Deployment (CD). By the end of this part, you should:
 1. Understand the difference between K3s and K3d.
 2. Use ArgoCD to automate the deployment of applications to your Kubernetes cluster.
-3. Deploy an application with multiple versions and manage updates via GitHub.
+3. Deploy an application with multiple versions and manage updates via GitHub (GitOps approach = GitOps uses a Git repository as the single source of truth for infrastructure definitions).
 
 ### **Requirements**
 
