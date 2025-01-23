@@ -151,7 +151,7 @@ The bonus task extends Part 3 by replacing GitHub with a locally hosted GitLab i
 ### **What is Expected in the Bonus?**
 
 1. **GitLab Deployment in Kubernetes:**
-   - Install and configure GitLab in your Kubernetes cluster (in the `gitlab` namespace).
+   - Install and configure GitLab in your Kubernetes cluster (in the `gitlab` namespace, can use Helm to install GitLab (https://docs.gitlab.com/charts/installation/)).
    - Ensure GitLab is accessible locally, ideally via an Ingress or a LoadBalancer, depending on your setup.
 
 2. **Switch from GitHub to GitLab:**
