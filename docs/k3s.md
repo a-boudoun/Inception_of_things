@@ -286,6 +286,8 @@ k3d cluster create --config k3d.yaml
 ```
 
 ## todo:
+- resource of the project:
+https://github.com/wen/iot/wiki
 ### Gitlab:
 - https://www.youtube.com/watch?v=qP8kir2GUgo
 
