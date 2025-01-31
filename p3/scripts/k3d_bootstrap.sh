@@ -42,9 +42,11 @@ wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
 k3d cluster create --config ../confs/iot-k3d-cluster.yaml
 
+# creating the namespaces
+kubectl create namespace dev && kubectl create namespace argocd
+
 
 # install argocd in the k3d cluster (the k3s context should be of k3d)
-kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # need to set up argocd after (maybe use ingress)
