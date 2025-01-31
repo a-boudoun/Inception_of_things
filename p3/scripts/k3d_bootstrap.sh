@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Start shell provisioning
-echo "Starting the shell provisioner for the first machine..."
+echo "Setup for K3d requirments..."
 
 # install necessary tools
 echo "Installing necesary tools..."
@@ -32,9 +32,12 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 # need to setup docker to run without sudo
 
+# install Kubectl to interact with K3S cluster
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 # set up k3d
-echo "Set up K3d..."
+echo "Install up K3d..."
 wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
 k3d cluster create my-iot-cluster
