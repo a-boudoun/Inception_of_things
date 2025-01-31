@@ -40,7 +40,7 @@ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 echo "Install up K3d..."
 wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 
-k3d cluster create my-iot-cluster
+k3d cluster create --config ../confs/iot-k3d-cluster.yaml
 
 
 # install argocd in the k3d cluster (the k3s context should be of k3d)
