@@ -194,6 +194,32 @@ The bonus task extends Part 3 by replacing GitHub with a locally hosted GitLab i
 
 ---
 
+The line *"Configure Gitlab to make it work with your cluster"* in the bonus part means that after installing GitLab locally in your Kubernetes cluster (inside the `gitlab` namespace), you need to integrate it with your existing cluster so that it can manage deployments and CI/CD pipelines.
+
+### Steps to Achieve This:
+1. **Deploy GitLab in K3d**  
+   - Install GitLab using Helm (recommended) or manually set up the necessary components.  
+   - Ensure it runs in a dedicated namespace (`gitlab`).  
+   - Configure persistent storage for GitLab's repositories, databases, and logs.
+
+2. **Integrate GitLab with Kubernetes**  
+   - In GitLab, navigate to **Admin Area > Kubernetes** and add your cluster.  
+   - Provide the API URL (`https://kubernetes.default.svc` inside the cluster).  
+   - Use a service account with the required permissions to allow GitLab to deploy applications.
+
+3. **Enable GitLab Runner for CI/CD**  
+   - Deploy **GitLab Runner** inside your cluster to execute jobs in GitLab CI/CD pipelines.  
+   - Register the runner with your GitLab instance.
+
+4. **Modify ArgoCD Configuration to Use GitLab**  
+   - Ensure that ArgoCD pulls configuration from GitLab instead of GitHub.  
+   - Update repository settings in ArgoCD to point to your GitLab repository.
+
+5. **Test CI/CD Integration**  
+   - Push a change to GitLab and verify that ArgoCD deploys the updated version of the application.
+
+This setup ensures that everything you did in Part 3 (ArgoCD and automated deployments) works with your local GitLab instance instead of GitHub.
+
 ### **Summary**
 - **Part 1:** Focuses on setting up a minimal K3s cluster using Vagrant.
 - **Part 2:** Expands the K3s cluster by deploying multiple applications with Ingress-based routing.
