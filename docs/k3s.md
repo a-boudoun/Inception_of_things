@@ -285,6 +285,11 @@ ports:
 k3d cluster create --config k3d.yaml
 ```
 
+# argocd:
+
+- get argocd credentials using kubectl and argocd cli:
+![alt text](argo_passwd.png)
+
 ## todo:
 - resource of the project:
 https://github.com/wen/iot/wiki
