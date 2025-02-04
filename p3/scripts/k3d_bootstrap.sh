@@ -50,3 +50,19 @@ kubectl create namespace dev && kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 # need to set up argocd after (maybe use ingress)
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
+
+# temp:
+nohup kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+
+# login to argocd:
+ARGOCD_PASSWORD=$(sudo kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d)
+
+# will get a certificate warning
+sudo argocd login localhost:8080
+
+#might need to change password
+# sudo argocd account update-password
+
+# deploy in argocd
+kubectl apply -f ../confs/argo_deploy.yaml
