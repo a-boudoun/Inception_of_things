@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 
+# create dedicated namespace for gitlab:
+kubectl create namespace gitlab
+
 # deploy using Helm
 
 helm repo add gitlab https://charts.gitlab.io/
