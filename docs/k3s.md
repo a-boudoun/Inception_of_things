@@ -290,6 +290,82 @@ k3d cluster create --config k3d.yaml
 - get argocd credentials using kubectl and argocd cli:
 ![alt text](argo_passwd.png)
 
+- how argocd detects k3s manifests:
+ArgoCD detects and applies all Kubernetes manifests in the specified folder by processing all `.yaml` (or `.yml`) files as Kubernetes resources. Here's how it works:
+
+### **1. ArgoCD Directory-Based Deployment**
+When you specify:
+```yaml
+source:
+  repoURL: https://github.com/a-boudoun/Inception_of_things/
+  targetRevision: HEAD
+  path: confs/k3s_manifests
+```
+ArgoCD:
+- Clones the repository.
+- Navigates to `confs/k3s_manifests/`.
+- Loads all `.yaml` and `.yml` files in that directory.
+- Validates and applies them to the specified **namespace** (`dev` in your case).
+
+### **2. How ArgoCD Combines the Files**
+- ArgoCD treats all YAML files as Kubernetes manifests.
+- It applies them **in no specific order**, so ensure dependencies (e.g., Service before Deployment) are handled correctly.
+- If resources reference each other (e.g., Deployment needs a Service), Kubernetes resolves it automatically.
+- **Example:**  
+  - `deployment.yaml` defines a `Deployment` resource.
+  - `service.yaml` defines a `Service` for that deployment.
+  - ArgoCD applies both in the `dev` namespace.
+
+### **3. What Happens During a Sync?**
+- ArgoCD runs `kubectl apply -f <directory>` under the hood.
+- It detects **changes** and **self-heals** (if `selfHeal: true` is set).
+- It prunes (deletes) resources that are removed from the repo (if `prune: true` is set).
+
+### **4. Example: Your Files**
+#### **deployment.yaml**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-app
+          image: nginx
+          ports:
+            - containerPort: 80
+```
+#### **service.yaml**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  namespace: dev
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```
+
+### **5. Debugging ArgoCD Path Issues**
+```sh
+kubectl logs -n argocd -l app.kubernetes.io/name=argocd-server
+```
+
 ## todo:
 - resource of the project:
 https://github.com/wen/iot/wiki
