@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/a-boudoun/Inception_of_things/
     targetRevision: HEAD
-    path: confs/k3s_manifests
+    path: /confs/k3s_manifests
   destination:
     server: https://kubernetes.default.svc
     namespace: dev
