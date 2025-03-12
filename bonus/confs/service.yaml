@@ -4,16 +4,19 @@ metadata:
   name: gitlab-service
   namespace: gitlab
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: http
     port: 80
     targetPort: 80
+    nodePort: 30000
   - name: https
     port: 443
     targetPort: 443
+    nodePort: 30016
   - name: ssh
     port: 22
     targetPort: 22
+    nodePort: 30022
   selector:
     app: gitlab-ce
