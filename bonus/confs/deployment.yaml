@@ -37,6 +37,26 @@ spec:
           name: gitlab-logs
         - mountPath: /var/opt/gitlab
           name: gitlab-data
+        resources:
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+          limits:
+            cpu: "4"
+            memory: "6Gi"
+        # Add health checks 
+        livenessProbe:
+          httpGet:
+            path: /users/sign_in
+            port: 80
+          initialDelaySeconds: 300  # GitLab takes time to start
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /users/sign_in
+            port: 80
+          initialDelaySeconds: 300
+          periodSeconds: 10
       volumes:
       - name: gitlab-config
         persistentVolumeClaim:
