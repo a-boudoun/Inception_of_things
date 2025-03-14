@@ -11,6 +11,8 @@ sudo apt install net-tools
 # install Kubectl to interact with K3S cluster
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 sudo install -o root -g root -m 0777 kubectl /usr/local/bin/kubectl
+sudo chown $(whoami):$(whoami) /usr/local/bin/kubectl
+chmod +x /usr/local/bin/kubectl
 
 # set up k3d
 echo "Install up K3d..."
@@ -20,7 +22,6 @@ k3d cluster create --config ../confs/k3d_cluster_config/iot-k3d-cluster.yaml
 
 # creating the namespaces
 kubectl create namespace dev && kubectl create namespace argocd
-
 
 # install argocd in the k3d cluster (the k3s context should be of k3d)
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
