@@ -26,10 +26,8 @@ kubectl create namespace dev && kubectl create namespace argocd
 # install argocd in the k3d cluster (the k3s context should be of k3d)
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
-# need to set up argocd after (maybe use ingress)
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 
-# temp:
 nohup kubectl port-forward svc/argocd-server -n argocd 8080:443 &
 
 # login to argocd:
