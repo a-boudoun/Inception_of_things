@@ -7,8 +7,8 @@ spec:
   project: default
   source:
     repoURL: https://github.com/a-boudoun/Inception_of_things/
-    targetRevision: fechcha_part2_k3s_apps_setup
-    # targetRevision: HEAD
+    # targetRevision: fechcha_part2_k3s_apps_setup
+    targetRevision: HEAD
     path: p3/confs/k3s_manifests
   destination:
     server: https://kubernetes.default.svc
