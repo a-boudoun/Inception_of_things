@@ -14,11 +14,6 @@ echo "Set up K3S..."
 curl -sfL https://get.k3s.io | sh -
 
 # use 644 for read-only access
-sudo chmod 777 /etc/rancher/k3s/k3s.yaml
+sudo chmod 644 /etc/rancher/k3s/k3s.yaml
 
-sudo chmod 777 /var/lib/rancher/k3s/server/
-
-sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n' > /vagrant/confs/node.txt
-
-sudo hostname -I | awk '{print $2}' | tr -d '\n' > /vagrant/confs/hostname.txt
-
+sudo chmod 644 /var/lib/rancher/k3s/server/node-token
