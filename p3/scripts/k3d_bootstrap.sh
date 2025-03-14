@@ -9,8 +9,8 @@ sudo apt install net-tools
 
 
 # install Kubectl to interact with K3S cluster
-# curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-# sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0777 kubectl /usr/local/bin/kubectl
 
 # set up k3d
 echo "Install up K3d..."
