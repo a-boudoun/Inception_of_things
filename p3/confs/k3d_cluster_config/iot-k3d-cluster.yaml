@@ -1,0 +1,13 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: my-iot-cluster
+servers: 1
+image: rancher/k3s:latest
+ports:
+  - port: 8082:80 # Maps the load balancer's port 80 to host port 8082
+    nodeFilters:
+      - loadbalancer
+  - port: 30000-32767:30000-32767 # Maps the NodePort range to the host
+    nodeFilters:
+      - server:0 # Expose NodePorts for the server node

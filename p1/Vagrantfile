@@ -8,30 +8,85 @@ CPU = 1
 MASTER_IP = "192.168.56.110"
 WORKER_IP = "192.168.56.111"
 
+MASTER_NAME = "fech-chaS"
+WORKER_NAME = "fech-chaSW"
+VM_PROVIDER = "virtualbox"
+BOX = "ubuntu/jammy64"
+BOX_VERSION = "20241002.0.0"
+BOX_CHECKSUM = "f322c39945bd01166d923a6b261b52d289095cd73afbdabda2e73c9a9237d660"
+BOX_CHECKSUM_TYPE = "sha256"
+MEMORY_MASTER = 1024
+MEMORY_WORKER = 512
+CPU = 1
+MASTER_IP = "192.168.56.110"
+WORKER_IP = "192.168.56.111"
+
 Vagrant.configure("2") do |config|
-    # Specify the base box and version
-    config.vm.box = BOX
-    config.vm.box_version = BOX_VERSION
+  # First Machine: Master Node
+  config.vm.define MASTER_NAME do |master|
+    master.vm.box = BOX
+    master.vm.box_version = BOX_VERSION
+
+    # check the box integrity
+    master.vm.box_download_checksum = BOX_CHECKSUM
+    master.vm.box_download_checksum_type = BOX_CHECKSUM_TYPE
+    master.vm.hostname = MASTER_NAME
+    
+    # Configure the VM provider dynamically based on the VM_PROVIDER variable
+    # .to_sym converts the string into a Ruby symbol (:virtualbox), which is how Vagrant expects the provider to be specified
+    master.vm.provider VM_PROVIDER.to_sym do |vb|
+      # Set the name of the VM inside VirtualBox
+      # "#{MASTER_NAME}_vb" interpolates the MASTER_NAME variable ("fech-chaS") and appends "_vb", resulting in "fech-chaS_vb"
+      vb.name = "#{MASTER_NAME}_vb"
+      vb.memory = MEMORY_MASTER
+      vb.cpus = CPU
+      vb.gui = false
+    end
+    
     # keep SSH connection alive
-    config.ssh.keep_alive = true
+    master.ssh.keep_alive = true
+    
+    # ignore Vagrantfiles (if any) found inside a box   
+    master.vm.ignore_box_vagrantfile = true
+    master.vm.box_check_update = false
+    
+    # allow Vagrant to modify etc/hosts file during provisioning
+    # This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname
+    # without needing to manually edit the /etc/hosts file, also allow VMs to communicate with each other
+    master.vm.allow_hosts_modification = true
+    master.vm.network "private_network", ip: MASTER_IP
+    master.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
+  end
+  
+  # Second Machine: Worker Node
+  config.vm.define WORKER_NAME do |worker|
+    worker.vm.box = BOX
+    worker.vm.box_version = BOX_VERSION
 
-    config.vm.provider VM_PROVIDER do |vb|
-        vb.memory = MEMORY
-        vb.cpus = CPU
-        vb.gui = false
+    # check the box integrity
+    worker.vm.box_download_checksum = BOX_CHECKSUM
+    worker.vm.box_download_checksum_type = BOX_CHECKSUM_TYPE
+    worker.vm.hostname = WORKER_NAME
+    
+    # Configure the VM provider dynamically based on the VM_PROVIDER variable
+    worker.vm.provider VM_PROVIDER.to_sym do |vb|
+      # Set the name of the VM inside VirtualBox
+      vb.name = "#{WORKER_NAME}_vb"
+      vb.memory = MEMORY_WORKER
+      vb.cpus = CPU
+      vb.gui = false
     end
-    # Master VM configuration
-    config.vm.define MASTER_NAME do |master|
-        master.vm.hostname = MASTER_NAME
-        master.vm.network "private_network", ip: MASTER_IP
-        master.vm.provision "shell", path: "scripts/bootstrap_vm1.sh"
-    end
-    # Worker VM configuration
-    config.vm.define WORKER_NAME do |worker|
-        worker.vm.hostname = WORKER_NAME
-        worker.vm.network "private_network", ip: WORKER_IP
-        worker.vm.provision "shell", path: "scripts/bootstrap_vm2.sh"
-    end
+    
+    worker.ssh.keep_alive = true
 
+    worker.vm.ignore_box_vagrantfile = true   
+    worker.vm.box_check_update = false
+    
+    # allow Vagrant to modify etc/hosts file during provisioning
+    # This can be useful for ensuring that your host machine can easily resolve the guest machine's hostname
+    worker.vm.allow_vagrant = true
+    worker.vm.network "private_network", ip: WORKER_IP
+    worker.vm.provision "shell", path: "scripts/bootstrap_vm2.sh"
+  end
 end
 

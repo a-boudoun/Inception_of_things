@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitlab-ce
+  namespace: gitlab
+  labels:
+    app: gitlab-ce
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gitlab-ce
+  template:
+    metadata:
+      labels:
+        app: gitlab-ce
+    spec:
+      containers:
+      - name: gitlab-ce
+        image: gitlab/gitlab-ce:latest
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+        # - containerPort: 22
+        #   name: ssh
+        # env:
+        # - name: GITLAB_OMNIBUS_CONFIG
+        #   value: |
+        #     external_url 'http://gitlab.example.com'
+        #     # Add additional GitLab configurations here
+        volumeMounts:
+        - mountPath: /etc/gitlab
+          name: gitlab-config
+        - mountPath: /var/log/gitlab
+          name: gitlab-logs
+        - mountPath: /var/opt/gitlab
+          name: gitlab-data
+        resources:
+          requests:
+            cpu: "2"
+            memory: "4Gi"
+          limits:
+            cpu: "4"
+            memory: "6Gi"
+        # Add health checks 
+        livenessProbe:
+          httpGet:
+            path: /users/sign_in
+            port: 80
+          initialDelaySeconds: 300  # GitLab takes time to start
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /users/sign_in
+            port: 80
+          initialDelaySeconds: 300
+          periodSeconds: 10
+      volumes:
+      - name: gitlab-config
+        persistentVolumeClaim:
+          claimName: gitlab-pvc-config
+      - name: gitlab-logs
+        persistentVolumeClaim:
+          claimName: gitlab-pvc-logs
+      - name: gitlab-data
+        persistentVolumeClaim:
+          claimName: gitlab-pvc-data

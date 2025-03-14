@@ -1,0 +1,25 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: my-iot-cluster
+servers: 1
+image: rancher/k3s:latest
+ports:
+  - port: 30000:30000 # GitLab HTTP
+    nodeFilters:
+      - server:0
+  - port: 30001:30001 # argocd-server
+    nodeFilters:
+      - server:0
+  - port: 80:80
+    nodeFilters:
+      - server:0
+  - port: 443:443
+    nodeFilters:
+      - server:0
+  - port: 30002:30002  # application
+    nodeFilters:
+      - server:0
+  # - port: 22:22
+  #   nodeFilters:
+  #     - server:0
