@@ -1,43 +1,84 @@
 #!/usr/bin/env bash
 
 # Start shell provisioning
-echo "Setup for K3d requirments..."
+echo "Setting up K3d requirements..."
 
-# install necessary tools
-echo "Installing necesary tools..."
-sudo apt install net-tools
+# Update package lists
+echo "Updating package lists..."
+sudo apt update -y
 
+# Install necessary tools (if not installed)
+echo "Installing necessary tools..."
+if ! command -v netstat &>/dev/null; then
+    sudo apt install -y net-tools
+else
+    echo "net-tools already installed, skipping..."
+fi
 
-# install Kubectl to interact with K3S cluster
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0777 kubectl /usr/local/bin/kubectl
-sudo chown $(whoami):$(whoami) /usr/local/bin/kubectl
-chmod +x /usr/local/bin/kubectl
+# Install kubectl to interact with k3d cluster if not installed
+if ! command -v kubectl &>/dev/null; then
+    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo install -o root -g root -m 0777 kubectl /usr/local/bin/kubectl
+    sudo chown $(whoami):$(whoami) /usr/local/bin/kubectl
+    chmod +x /usr/local/bin/kubectl
+    echo "kubectl installed successfully!"
+else
+    echo "kubectl already installed, skipping..."
+fi
 
-# set up k3d
-echo "Install up K3d..."
-wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+# Install K3d if not installed
+if ! command -v k3d &>/dev/null; then
+    echo "Installing K3d..."
+    wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+    echo "K3d installed successfully!"
+else
+    echo "K3d already installed, skipping..."
+fi
 
+# Create K3d cluster
+echo "Creating K3d cluster..."
 k3d cluster create --config ../confs/k3d_cluster_config/iot-k3d-cluster.yaml
 
-# creating the namespaces
-kubectl create namespace dev && kubectl create namespace argocd
+# Ensure kubectl is using the correct K3d context
+kubectl config use-context k3d-iot-k3d-cluster
 
-# install argocd in the k3d cluster (the k3s context should be of k3d)
+# Create namespaces
+# argocd namespace will be created within its config file argo_deploy.yaml
+kubectl create namespace dev
+
+# Install ArgoCD in the k3d cluster
+echo "Installing ArgoCD..."
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
+# Change ArgoCD service to NodePort
+echo "Exposing ArgoCD via NodePort..."
 kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "NodePort"}}'
 
-nohup kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+# Forward ArgoCD service port
+echo "Forwarding ArgoCD port..."
+nohup kubectl port-forward svc/argocd-server -n argocd 8080:443 &>/dev/null &
 
-# login to argocd:
-ARGOCD_PASSWORD=$(sudo kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d)
+# Ensure ArgoCD CLI is installed
+if ! command -v argocd &>/dev/null; then
+    echo "Installing ArgoCD CLI..."
+    curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    sudo install -m 777 argocd-linux-amd64 /usr/local/bin/argocd
+    echo "ArgoCD CLI installed successfully!"
+else
+    echo "ArgoCD CLI already installed, skipping..."
+fi
 
-# will get a certificate warning
-sudo argocd login localhost:8080
+# Retrieve the ArgoCD admin password
+echo "Retrieving ArgoCD admin password..."
+ARGOCD_PASSWORD=$(kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d)
+echo "ArgoCD admin password: $ARGOCD_PASSWORD"
 
-#might need to change password
-# sudo argocd account update-password
+# Log in to ArgoCD
+echo "Logging in to ArgoCD..."
+argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure
 
-# deploy in argocd
+# Deploy ArgoCD applications
+echo "Deploying applications in ArgoCD..."
 kubectl apply -f ../confs/argo_deploy.yaml
+
+echo "Setup completed successfully!"
