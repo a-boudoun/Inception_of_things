@@ -24,8 +24,7 @@ spec:
             name: app2-service
             port:
               number: 3000
-  - host: "app3.com"
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
