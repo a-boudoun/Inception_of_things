@@ -1,12 +1,5 @@
-MASTER_NAME = "aboudounS"
-WORKER_NAME = "aboudounSW"
-VM_PROVIDER = "virtualbox"
-BOX = "ubuntu/jammy64"
-BOX_VERSION = "20241002.0.0"
-MEMORY =  2048
-CPU = 1
-MASTER_IP = "192.168.56.110"
-WORKER_IP = "192.168.56.111"
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
 
 MASTER_NAME = "fech-chaS"
 WORKER_NAME = "fech-chaSW"
