@@ -8,7 +8,7 @@ sudo apt install net-tools
 
 echo "Set up K3S..."
 
-PRIVATE_KEY=/vagrant/.vagrant/machines/aboudounS/virtualbox/private_key
+PRIVATE_KEY=/p1/.vagrant/machines/aboudounS/virtualbox/private_key
 SERVER_IP="192.168.56.110"
 CMD="sudo cat /var/lib/rancher/k3s/server/node-token | tr -d '\n'"
 
