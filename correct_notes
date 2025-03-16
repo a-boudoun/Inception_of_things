@@ -19,3 +19,8 @@ apps-ingress   <none>   app1.com,app2.com,app3.com   10.0.2.15   80      6m7s
 - test ingress:
 
 curl -H "Host:app2.com" 192.168.56.110
+
+- k3s vs k8s
+
+- diff between namespace and pod: https://spacelift.io/blog/kubernetes-namespaces
+
