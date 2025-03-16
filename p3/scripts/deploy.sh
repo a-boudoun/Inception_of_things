@@ -7,7 +7,7 @@ NC="\033[0m"
 
 echo -e "${YELLOW}Creating k3d cluster${NC}"
 
-k3d cluster create p3 --config ../confs/k3d_cluster_config/k3d-cluster.yaml
+k3d cluster create p3 --config ./confs/k3d_cluster_config/k3d-cluster.yaml
 
 kubectl cluster-info > /dev/null 
 
@@ -39,7 +39,7 @@ kubectl patch svc argocd-server -n argocd --type='json' -p='[
 
 echo -e "${YELLOW}creating argocd Application${NC}"
 
-kubectl apply -n argocd -f ../confs/argo_deploy/Application.yaml
+kubectl apply -n argocd -f ./confs/argo_deploy/Application.yaml
 
 argocdPassword=$(kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d)
 
