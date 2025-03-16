@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/Abderrazzak1m/argo-cd-demo.git
+    repoURL: https://github.com/Abderrazzak1m/amiski.git
     path: ./
     targetRevision: HEAD
   destination:
