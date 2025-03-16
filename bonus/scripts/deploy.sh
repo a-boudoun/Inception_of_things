@@ -59,3 +59,5 @@ echo -e "You can now access GitLab at: ${GREEN}http://localhost:30000${NC} with 
 echo -e "Username: ${GREEN}root${NC}"
 echo -e "Password: ${GREEN}$gitlabPassword${NC}"
 
+
+# kubectl create -f confs/argo_deploy/Application.yaml
