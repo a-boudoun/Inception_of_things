@@ -20,7 +20,7 @@ kubectl apply -n gitlab -f ./confs/gitlab/service.yaml
 
 # wait gitlab pod to be ready
 echo -e "${YELLOW}Waiting for GitLab to be ready...${NC}"
-kubectl wait --for=condition=ready pod -l app=gitlab-ce -n gitlab --timeout=600s
+kubectl wait --for=condition=ready pod -l app=gitlab-ce -n gitlab --timeout=1500s
 
 # install argocd
 kubectl create namespace argocd
@@ -29,7 +29,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 # wait argocd pods to be ready
 echo -e "${YELLOW}Waiting for Argo CD to be ready...${NC}"
-kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=300s
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=500s
 
 # change argocd server service type to NodePort
 echo -e "${YELLOW}Configuring Argo CD server as NodePort${NC}"
