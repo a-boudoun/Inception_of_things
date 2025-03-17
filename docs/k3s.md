@@ -123,6 +123,72 @@ spec:
 
 ![alt text](replicaset.png)
 
+In Kubernetes, the `apiVersion` field specifies the API group and version for the Kubernetes resource being defined. The key difference between `apiVersion: apps/v1` and `apiVersion: v1` lies in the **API group** they belong to and the resources they manage:
+
+### **`apiVersion: v1`**
+- Belongs to the **core (default) API group**, which doesn't have a name.
+- Used for core Kubernetes objects like:
+  - **Pods**
+  - **Services**
+  - **ConfigMaps**
+  - **Secrets**
+  - **PersistentVolumes (PVs)**
+  - **PersistentVolumeClaims (PVCs)**
+  - **Namespaces**
+  - **Nodes**
+- Example:
+  ```yaml
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: my-pod
+  spec:
+    containers:
+    - name: nginx
+      image: nginx:latest
+  ```
+
+---
+
+### **`apiVersion: apps/v1`**
+- Belongs to the **apps API group**, introduced to handle higher-level abstractions related to deploying and managing applications.
+- Used for managing workload resources like:
+  - **Deployments**
+  - **DaemonSets**
+  - **StatefulSets**
+  - **ReplicaSets**
+- Example:
+  ```yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: my-deployment
+  spec:
+    replicas: 3
+    selector:
+      matchLabels:
+        app: nginx
+    template:
+      metadata:
+        labels:
+          app: nginx
+      spec:
+        containers:
+        - name: nginx
+          image: nginx:latest
+  ```
+
+---
+
+### Key Differences:
+| Feature                  | `apiVersion: v1`                    | `apiVersion: apps/v1`         |
+|--------------------------|--------------------------------------|--------------------------------|
+| **API Group**            | Core (default) group                | `apps` group                  |
+| **Resources Managed**    | Core objects (e.g., Pods, Services) | Workload resources (e.g., Deployments, StatefulSets) |
+| **Purpose**              | Basic Kubernetes building blocks    | Application deployment and scaling |
+
+When deciding between the two, it depends on the resource you are defining. Always consult the Kubernetes documentation or use `kubectl api-resources` to see the appropriate `apiVersion` for the resource.
+
 ## Updates and Rollbacks:
 ### Rollout and versioning:
 
@@ -172,8 +238,148 @@ $ kubectl rollout undo deployment/my-deployment-app --to-revision=3
 
 * The `ClusterIP` type makes the service accessible within the cluster (for internal communication). You could change it to `NodePort` or `LoadBalancer` if you need external access.
 
-## todo:
+# k3d:
+- resource: 
+https://www.youtube.com/watch?v=mCesuGk-Fks&list=PLvFOdZBrBEqXIiC6wuHMq2Clq7_dGLEiD&index=17&ab_channel=DevOpsToolkit
 
+- install on linux:
+```bash
+wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+```
+
+- create cluster:
+```bash
+k3d cluster create my-cluster
+```
+- after install :
+![alt text](k3d_setup.png)
+
+- to check if the cluster running as a container, check docker:
+![alt text](k3s_container.png)
+* two containers, one for k3s cluster, one will proxy the request to the cluster container.
+
+- delete a cluster:
+```bash
+k3d cluster delete my-cluster
+```
+
+- k3d config files to create clusters (k3d.yaml): 
+```yaml
+# required fields
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+name: my-cluster
+image: rancher/k3s:latest
+# control plane/ master nodes:
+servers: 3
+# agent/worker nodes:
+agents: 3
+ports:
+  - port: 80:80 # same as `--port '8080:80@loadbalancer'`
+    nodeFilters:
+      - loadbalancer
+```
+
+- create cluster with config file:
+```bash
+k3d cluster create --config k3d.yaml
+```
+
+# argocd:
+
+- get argocd credentials using kubectl and argocd cli:
+![alt text](argo_passwd.png)
+
+- how argocd detects k3s manifests:
+ArgoCD detects and applies all Kubernetes manifests in the specified folder by processing all `.yaml` (or `.yml`) files as Kubernetes resources. Here's how it works:
+
+### **1. ArgoCD Directory-Based Deployment**
+When you specify:
+```yaml
+source:
+  repoURL: https://github.com/a-boudoun/Inception_of_things/
+  targetRevision: HEAD
+  path: confs/k3s_manifests
+```
+ArgoCD:
+- Clones the repository.
+- Navigates to `confs/k3s_manifests/`.
+- Loads all `.yaml` and `.yml` files in that directory.
+- Validates and applies them to the specified **namespace** (`dev` in your case).
+
+### **2. How ArgoCD Combines the Files**
+- ArgoCD treats all YAML files as Kubernetes manifests.
+- It applies them **in no specific order**, so ensure dependencies (e.g., Service before Deployment) are handled correctly.
+- If resources reference each other (e.g., Deployment needs a Service), Kubernetes resolves it automatically.
+- **Example:**  
+  - `deployment.yaml` defines a `Deployment` resource.
+  - `service.yaml` defines a `Service` for that deployment.
+  - ArgoCD applies both in the `dev` namespace.
+
+### **3. What Happens During a Sync?**
+- ArgoCD runs `kubectl apply -f <directory>` under the hood.
+- It detects **changes** and **self-heals** (if `selfHeal: true` is set).
+- It prunes (deletes) resources that are removed from the repo (if `prune: true` is set).
+
+### **4. Example: Your Files**
+#### **deployment.yaml**
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  namespace: dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: my-app
+          image: nginx
+          ports:
+            - containerPort: 80
+```
+#### **service.yaml**
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+  namespace: dev
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+```
+
+### **5. Debugging ArgoCD Path Issues**
+```sh
+kubectl logs -n argocd -l app.kubernetes.io/name=argocd-server
+```
+
+## todo:
+- resource of the project:
+https://github.com/wen/iot/wiki
+### Gitlab:
+- https://www.youtube.com/watch?v=qP8kir2GUgo
+
+### K3D:
+- k8s context vs namespace
+- switch between k3d and default context
+![alt text](k3d_context.png)
+
+### IOT:
+- set up dashboard
+https://dev.to/lucyllewy/install-and-access-the-k8s-web-ui-dashboard-on-a-k3s-cluster-4370
 - secure k3s token:
 ![alt text](secure_token_recommendation.png)
 

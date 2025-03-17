@@ -1,0 +1,22 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: bonus
+servers: 1
+image: rancher/k3s:latest
+ports:
+  - port: 8082:80
+    nodeFilters:
+      - loadbalancer
+  - port: 30000:30000 # Gitlab (http)
+    nodeFilters:
+      - server:0
+  - port: 30001:30001 # gitlab (ssh)
+    nodeFilters:
+      - server:0
+  - port: 30002:30002 # argocd (http)
+    nodeFilters:
+      - server:0
+  - port: 30003:30003 # my app (http)
+    nodeFilters:
+      - server:0

@@ -1,0 +1,16 @@
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: p3
+servers: 1
+image: rancher/k3s:latest
+ports:
+  - port: 8082:80
+    nodeFilters:
+      - loadbalancer
+  - port: 30003:30003 # app port
+    nodeFilters:
+      - server:0
+  - port: 30001:30001 # argocd port
+    nodeFilters:
+      - server:0
