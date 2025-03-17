@@ -26,7 +26,7 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 # wait argocd pods to be ready
 echo -e "${YELLOW}Waiting for Argo CD to be ready...${NC}"
-kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=300s
+kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=500s
 
 
 echo -e "${YELLOW}Configuring Argo CD server as NodePort${NC}"

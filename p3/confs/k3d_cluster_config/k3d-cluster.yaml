@@ -8,9 +8,9 @@ ports:
   - port: 8082:80
     nodeFilters:
       - loadbalancer
-  - port: 30000:30000
+  - port: 30003:30003 # app port
     nodeFilters:
       - server:0
-  - port: 30001:30001
+  - port: 30001:30001 # argocd port
     nodeFilters:
       - server:0
