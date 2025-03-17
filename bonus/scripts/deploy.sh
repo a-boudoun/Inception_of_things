@@ -42,7 +42,7 @@ kubectl patch svc argocd-server -n argocd --type='json' -p='[
 # change gitlab repo url in argo_deploy/Application.yaml
 GITLAB_IP=$(kubectl get svc gitlab-service -n gitlab -o jsonpath='{.spec.clusterIP}')
 GITLAB_REPO_URL="http://$GITLAB_IP/root/k8s-deployment.git"
-sed -i '' "s|repoURL: .*|repoURL: $GITLAB_REPO_URL|" ./confs/argo_deploy/Application.yaml
+sed -i "s|repoURL: .*|repoURL: $GITLAB_REPO_URL|" ./confs/argo_deploy/Application.yaml
 
 echo -e "${YELLOW}go to gitlab and create a public project named k8s-deployment${NC}"
 
@@ -55,6 +55,11 @@ echo -e "Password: ${GREEN}$argocdPassword${NC}"
 
 
 gitlabPassword=$(kubectl -n gitlab exec -it $(kubectl get pod -n gitlab -l app=gitlab-ce -o jsonpath='{.items[0].metadata.name}') -- cat /etc/gitlab/initial_root_password | grep Password: | awk '{print $2}')
+
+echo $argocdPassword > credentials.txt
+echo "-----" >> credentials.txt
+echo $gitlabPassword >> credentials.txt
+
 echo -e "You can now access GitLab at: ${GREEN}http://localhost:30000${NC} with the following credentials:"
 echo -e "Username: ${GREEN}root${NC}"
 echo -e "Password: ${GREEN}$gitlabPassword${NC}"
